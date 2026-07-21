@@ -1,0 +1,19 @@
+# Python dependencies for the TTC Route 29 project.
+# On the main lab machine these are already installed; listed here so the folder
+# is self-contained and reproducible if you set up a fresh environment.
+
+# --- Days 1-5 (derivation) + the test suite ---
+pandas>=2.0
+numpy>=1.24
+scipy>=1.10
+matplotlib>=3.6
+networkx>=3.0
+pytest>=7.0
+tabulate>=0.9        # used by setup/ when importing the env (setup/utils.py)
+
+# --- Day 6 (running the simulator: quick_run.py / --run-sim) ---
+# The simulator + agents pull these in. torch is heavy and platform-specific;
+# install the build that matches your machine/CUDA if it is not already present.
+pyyaml>=6.0          # config.py reads the YAML run config
+torch>=2.0           # the RL/holding agents (config.py imports the full agent package)
+joblib>=1.2          # used by some agents

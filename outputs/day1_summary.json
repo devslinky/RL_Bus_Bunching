@@ -1,0 +1,53 @@
+{
+  "direction": "NORTH",
+  "generated_by": "day1_explore.py",
+  "rows": {
+    "apc_clean": 425591,
+    "apc_raw": 573596,
+    "avl_seg": 604449
+  },
+  "date_min": "2023-11-01 04:48:07",
+  "date_max": "2023-12-01 02:14:15",
+  "branches": [
+    "29Dcon",
+    "DLPRcon",
+    "DLWI"
+  ],
+  "periods": [
+    "AM peak",
+    "Afternoon",
+    "Early evening",
+    "Early morning",
+    "Late evening",
+    "Midday",
+    "Morning",
+    "PM peak"
+  ],
+  "daytypes": [
+    "MoTuWeThFr",
+    "Sa",
+    "Su"
+  ],
+  "apc_latlon_coverage": 1.0,
+  "gtfs_stop_overlap": 0.7171717171717171,
+  "gtfs_calendar_start": "20201011",
+  "gtfs_calendar_end": "20201121",
+  "num_stops": 49,
+  "terminal_start_id": "11991",
+  "terminal_start_name": "Strachan Ave @ Fleet St North Side",
+  "terminal_end_id": "2108",
+  "terminal_end_name": "Dufferin St @ Wilson Ave",
+  "unique_trips": 4572,
+  "total_boardings": 330498,
+  "total_alightings": 296479,
+  "mean_arrload": 14.667844590192002,
+  "mean_depload": 14.819449530812292,
+  "mean_dwell_sec": 11.042495612512306,
+  "headway_real_mean_sec": 536.0602733040507,
+  "headway_real_median_sec": 499.0,
+  "headway_real_std_sec": 295.46093895825913,
+  "headway_placeholder_sec": 300.0,
+  "headway_placeholder_std_sec": 60.0,
+  "avl_mean_kph": 13.080297581019156,
+  "avl_zero_share": 0.44425706900857137
+}
