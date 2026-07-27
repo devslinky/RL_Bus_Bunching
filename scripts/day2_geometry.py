@@ -159,7 +159,10 @@ def _placeholder_spacing(direction: str) -> pd.DataFrame | None:
     """
     ref = C.SETUP_DATA / f"links_{direction.lower()}.csv"
     if not ref.exists():
-        return None
+        try:
+            ref = Path(f"outputs/derived/{direction.lower()}/links_{direction.lower()}.csv") # ADDED SINCE REPO GENERATES THESE FILES IN outputs/derived/<dir>/links_<dir>.csv
+        except Exception:
+            return None
     links = pd.read_csv(ref)
     links["to_stop_id"] = links["to_stop_id"].astype(str)
     links["placeholder_m"] = links["tt_mean"].astype(float) * PLACEHOLDER_SPEED_MPS

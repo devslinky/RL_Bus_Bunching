@@ -46,7 +46,7 @@ class TTC_Route_29_Network(Network):
             if curr_node in spacing:
                 x_cum += spacing[curr_node]
             else:
-                x_cum += 250
+                x_cum += 250 # arbritrary default spacing if not specified
             node_x_cum[curr_node] = x_cum
 
         y = 0
