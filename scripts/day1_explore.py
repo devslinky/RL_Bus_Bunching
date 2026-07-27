@@ -60,6 +60,7 @@ import matplotlib  # noqa: E402
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+import argparse  
 
 
 # --------------------------------------------------------------------------- #
@@ -71,7 +72,14 @@ import matplotlib.pyplot as plt  # noqa: E402
 #
 # STUDENT TODO: once you are comfortable, turn DIRECTION into an argparse flag
 # (e.g. `--direction SOUTH`) and re-run to eyeball the southbound numbers.
-DIRECTION = "NORTH"
+
+argparser = argparse.ArgumentParser(description="Day 1 EDA for TTC Route 29")
+argparser.add_argument("--direction", type=str, default="NORTH",
+                       help="Direction of the route (NORTH or SOUTH)")
+args = argparser.parse_args()
+DIRECTION = args.direction
+
+
 
 # The placeholder the current simulator ships with. Everything we measure below
 # gets contrasted against these so you can *see* how wrong the placeholder is.
@@ -161,6 +169,21 @@ def _per_stop_profile(apc_clean: pd.DataFrame, seq: pd.DataFrame,
     prof = seq.merge(agg, on="StopID", how="left")
     return prof
 
+def _per_period_boarding_demand(apc_clean: pd.DataFrame, direction: str) -> pd.DataFrame:
+    """Aggregate boarding demand by period (AM peak / Midday / PM peak / Late evening)."""
+    d = C.route_dir(apc_clean, direction)
+    d = d.copy()
+    d["StopID"] = d["StopID"].astype(str)
+
+    agg = (
+        d.groupby("PeriodID")
+        .agg(
+            total_boardings=("Boarding", "sum"),
+        )
+        .reset_index()
+    )
+
+    return agg
 
 def _short_stop_label(row: pd.Series) -> str:
     """A compact human label for a stop, e.g. 'Dufferin St @ Wilson Ave'."""
@@ -370,6 +393,22 @@ def main() -> None:
     # match; if not, a branch is skewing the median ordering (see common.py).
 
     # ----------------------------------------------------------------------- #
+    # 3.A) The stop sequence for each branch (DLWI, 29Dcon, DLPRcon); and frequency of each branch for specific direction. 
+
+    for branch in sorted(apc_clean["Branch"].dropna().unique()):
+        branch_seq = C.stop_sequence(apc_clean[apc_clean["Branch"] == branch], direction)
+        print(f"\n  Branch {branch} stop sequence ({len(branch_seq)} stops):")
+        for _, r in branch_seq.iterrows():
+            print(f"    seq {int(r['stop_seq']):>3}  id={r['StopID']:>7}  "
+                  f"{_short_stop_label(r)}  (n_trips={int(r['n_trips'])})")
+            
+        n_branch_trips = int(apc_clean[(apc_clean["Branch"] == branch) & (apc_clean["RouteDirection"] == direction)]["TripID"].nunique())
+        print(f"  Branch {branch} has {n_branch_trips} unique trips for direction {direction} in this month.")
+        print(f"  Branch {branch} frequency: {n_branch_trips / len(apc_clean['TripID'][apc_clean['RouteDirection'] == direction].unique()) * 100:.2f}% of total trips.")
+
+    # ----------------------------------------------------------------------- #
+
+    # ----------------------------------------------------------------------- #
     # 4) Demand / load headlines.
     # ----------------------------------------------------------------------- #
     d = C.route_dir(apc_clean, direction)
@@ -395,6 +434,15 @@ def main() -> None:
 
     # Build the per-stop profile used by plots (a) and (b).
     prof = _per_stop_profile(apc_clean, seq, direction)
+
+    # boarding demand varied by period (AM peak / Midday / PM peak / Late evening)
+    period_demand = _per_period_boarding_demand(apc_clean, direction)
+    print("\n  Boarding demand by period (month total):")
+    for _, row in period_demand.iterrows():
+        period = row["PeriodID"]
+        total = row["total_boardings"]
+        print(f"    {period:<10}: {int(total):>8,} boardings")
+        print(f"      share of total: {100.0 * total / total_boardings:5.1f}%")
 
     # ----------------------------------------------------------------------- #
     # 5) THE HEADLINE: real terminal headway vs. the 300 s placeholder (GAP 1).
