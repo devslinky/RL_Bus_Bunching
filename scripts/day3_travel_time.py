@@ -83,7 +83,7 @@ REFERENCE_MEAN_TT_SEC = 50.0
 # --------------------------------------------------------------------------- #
 # Core derivation  (pure: reads data, returns a DataFrame, writes nothing)
 # --------------------------------------------------------------------------- #
-def derive_travel_time(direction: str) -> pd.DataFrame:
+def derive_travel_time(direction: str, print_by_period_data: bool = False) -> pd.DataFrame:
     """Measure stop-to-stop travel time per canonical link for one direction.
 
     Args:
@@ -146,6 +146,30 @@ def derive_travel_time(direction: str) -> pd.DataFrame:
     # night. To model that, groupby ["StopID", "next_id", "PeriodID"] here and
     # return period-specific distributions, then let the simulator pick the
     # active period. The default below collapses all periods into one number.
+
+    if print_by_period_data:
+        measured_period = adj.groupby(["StopID", "next_id", "PeriodID"])["tt"].agg(
+            tt_mean="mean", tt_std="std", tt_count="count"
+        ).reset_index().rename(columns={"StopID": "from_stop_id", "next_id": "to_stop_id"})
+
+        measured_period["tt_std"] = measured_period["tt_std"].fillna(0.0)
+        links_period = pd.DataFrame(
+            {
+                "from_stop_id": ordered_ids[:-1],
+                "to_stop_id": ordered_ids[1:],
+            }
+        )
+        out_period = links_period.merge(measured_period, on=["from_stop_id", "to_stop_id"], how="left")
+
+        no_data_period = out_period["tt_count"].isna()
+        out_period.loc[no_data_period, "tt_mean"] = DEFAULT_TT_MEAN
+        out_period.loc[no_data_period, "tt_std"] = DEFAULT_TT_STD
+        out_period["tt_count"] = out_period["tt_count"].fillna(0).astype(int)
+        out_period["tt_cv"] = np.where(out_period["tt_mean"] > 0, out_period["tt_std"] / out_period["tt_mean"], 0.0)
+        out_period.loc[no_data_period, "tt_cv"] = DEFAULT_TT_CV
+        out_period = out_period[["from_stop_id", "to_stop_id", "PeriodID", "tt_mean", "tt_std", "tt_cv", "tt_count"]]
+
+        print(out_period)
 
     measured = (
         adj.groupby(["StopID", "next_id"])["tt"]
@@ -257,7 +281,7 @@ def run_direction(direction: str) -> pd.DataFrame:
     """Derive, report, and save travel times for one direction. Returns table."""
     C.banner(f"DAY 3 — TRAVEL TIME  ({direction.upper()})")
 
-    tt = derive_travel_time(direction)
+    tt = derive_travel_time(direction, print_by_period_data=True)
 
     n_links = len(tt)
     n_data = int((tt["tt_count"] > 0).sum())
