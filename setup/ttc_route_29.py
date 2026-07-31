@@ -13,10 +13,10 @@ The simulation supports both directions as separate environments.
 from collections import defaultdict
 from typing import List, Dict, Tuple
 from typing_extensions import override
-from ttc_route_29_data.dataloader import DataLoader
-from network import Network
-from route import Route_Schema
-from config_dataclass import TerminalNodeGeometry, StopNodeGeometry, LinkGeometry, LinkDistribution
+from setup.ttc_route_29_data.dataloader import DataLoader
+from setup.network import Network
+from setup.route import Route_Schema
+from setup.config_dataclass import TerminalNodeGeometry, StopNodeGeometry, LinkGeometry, LinkDistribution
 
 
 class TTC_Route_29_Network(Network):
