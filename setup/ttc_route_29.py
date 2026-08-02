@@ -14,6 +14,7 @@ from collections import defaultdict
 from typing import List, Dict, Tuple
 from typing_extensions import override
 from setup.ttc_route_29_data.dataloader import DataLoader
+from setup.ttc_route_29_data_real.dataloader import DataLoaderReal # replace old dataloader with placeholder headway and spacing values with real data derived values
 from setup.network import Network
 from setup.route import Route_Schema
 from setup.config_dataclass import TerminalNodeGeometry, StopNodeGeometry, LinkGeometry, LinkDistribution
@@ -213,3 +214,50 @@ class TTC_Route_29_South_Route_Schema(TTC_Route_29_Route_Schema):
 
     def __init__(self):
         super().__init__('south')
+
+
+###### Student Changes: adding ttc_route_29_<dir>_real subclasses to use real data derived headway and spacing values instead of placeholder values
+
+class TTC_Route_29_North_Network_real(TTC_Route_29_Network):
+    """Network for Route 29 NORTH with real data derived headway and spacing values."""
+
+    def __init__(self) -> None:
+        self.direction = 'north'
+        self.data_loader = DataLoaderReal('north')
+        Network.__init__(self)          
+
+class TTC_Route_29_South_Network_real(TTC_Route_29_Network):
+    """Network for Route 29 SOUTH with real data derived headway and spacing values."""
+
+    def __init__(self) -> None:
+        self.direction = 'south'
+        self.data_loader = DataLoaderReal('south')
+        Network.__init__(self)   
+
+class TTC_Route_29_North_Route_Schema_real(TTC_Route_29_Route_Schema):
+    """Route schema for Route 29 NORTH with real data derived headway and spacing values."""
+
+    def __init__(self) -> None:
+        self.direction = 'north'
+        self.data_loader = DataLoaderReal('north')
+        self._node_ids = self.data_loader.node_ids
+        self._stop_pax_arrival_rate = self.data_loader.stop_pax_arrival_rate
+        self._start_terminal_id = self._node_ids[0]
+        self._end_terminal_id = self._node_ids[-1]
+        self._visit_seq_stop_ids = self._node_ids[1:-1]
+        self._H_mean, self._H_std = self.data_loader.dispatching_headway
+        Route_Schema.__init__(self)     
+
+class TTC_Route_29_South_Route_Schema_real(TTC_Route_29_Route_Schema):
+    """Route schema for Route 29 SOUTH with real data derived headway and spacing values."""
+
+    def __init__(self) -> None:
+        self.direction = 'south'
+        self.data_loader = DataLoaderReal('south')
+        self._node_ids = self.data_loader.node_ids
+        self._stop_pax_arrival_rate = self.data_loader.stop_pax_arrival_rate
+        self._start_terminal_id = self._node_ids[0]
+        self._end_terminal_id = self._node_ids[-1]
+        self._visit_seq_stop_ids = self._node_ids[1:-1]
+        self._H_mean, self._H_std = self.data_loader.dispatching_headway
+        Route_Schema.__init__(self)   

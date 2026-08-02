@@ -182,7 +182,9 @@ class Simulator:
 
             # Dispatch buses at proper intervals
             fleet_ok = len(self._bus_in_running) < self._fleet_size
-            time_since_last = step - (self._last_dispatch_time + warm_up_offset) if self._last_dispatch_time != 0 else step
+            #time_since_last = step - (self._last_dispatch_time + warm_up_offset) if self._last_dispatch_time != 0 else step
+            # [STUDENT CHANGE:] the above line is commented out because it was causing issues with dispatching during warm-up. Instead, we use the following logic:
+            time_since_last = step - self._last_dispatch_time if self._last_dispatch_time != 0 else step
             headway_ok = time_since_last >= self._dispatch_headway or dispatched_count == 0
 
             if fleet_ok and headway_ok:

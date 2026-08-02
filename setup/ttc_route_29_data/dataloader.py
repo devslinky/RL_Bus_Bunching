@@ -72,9 +72,11 @@ class DataLoader:
         """
         (mean_s, std_s).
 
-        used to be 300,60 but now we derive from real ttc data (see docs/03_data_to_env_mapping.md)
+        currently returns 300,60 
+        commented out is a better alternative with headway derived from real ttc data (see docs/03_data_to_env_mapping.md) (see ttc_route_29_data_real/dataloader.py)
         """
-        return tuple(self.data["dispatching_headway"])
+        return (300.0,60.0)
+        # return tuple(self.data["dispatching_headway"])
 
     @property
     def num_stops(self) -> int:                                      
@@ -88,6 +90,15 @@ class DataLoader:
     def get_spacing(self) -> Dict[str, float]:                        
         """
         {tail_stop_id -> meters}.
-        Used to be tt_mean * 20 km/h, now is real haversine spacing keyed by downstream stop id.
+        currently returns tt_mean * 20 km/h
+        commented out is a better alternative that returns real haversine spacing keyed by downstream stop id. (see ttc_route_29_data_real/dataloader.py)
         """
-        return dict(self.data["spacing"])
+        KMH_TO_MS = 1000.0 / 3600.0
+        assumed_speed_ms = 20.0 * KMH_TO_MS
+
+        return {
+            stop_id: info["loc"] * assumed_speed_ms
+            for stop_id, info in self.link_time_info.items()
+        }
+        #return dict(self.data["spacing"])
+        

@@ -6,7 +6,9 @@ from .chengdu import CD_Route3_Network, CD_Route3_Route_Schema
 from .guangzhou_brt import GBRT_Network, GBRT_Route_Schema
 from .ttc_route_29 import (
     TTC_Route_29_North_Network, TTC_Route_29_North_Route_Schema,
-    TTC_Route_29_South_Network, TTC_Route_29_South_Route_Schema
+    TTC_Route_29_South_Network, TTC_Route_29_South_Route_Schema,
+    TTC_Route_29_North_Network_real, TTC_Route_29_North_Route_Schema_real,
+    TTC_Route_29_South_Network_real, TTC_Route_29_South_Route_Schema_real
 )
 from .network import Network
 from .route import Route_Schema
@@ -39,6 +41,14 @@ class Blueprint:
         elif self.env_name == 'ttc_route_29_south':
             self.network: Network = TTC_Route_29_South_Network()
             self.route_schema: Route_Schema = TTC_Route_29_South_Route_Schema()
+
+        # Student addition: adding in ttc_route_29_<dir>_real branches
+        elif self.env_name == "ttc_route_29_north_real":
+            self.network: Network = TTC_Route_29_North_Network_real()
+            self.route_schema: Route_Schema = TTC_Route_29_North_Route_Schema_real()
+        elif self.env_name == "ttc_route_29_south_real":
+            self.network: Network = TTC_Route_29_South_Network_real()
+            self.route_schema: Route_Schema = TTC_Route_29_South_Route_Schema_real()
 
         # _route_node_to_link: used for querying next link for current node
         # _route_link_to_node: used for querying next node for current link

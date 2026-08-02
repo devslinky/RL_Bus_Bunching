@@ -1,0 +1,17 @@
+{
+  "direction": "SOUTH",
+  "num_stops": 50,
+  "terminal_start_id": "2107",
+  "terminal_end_id": "11992",
+  "terminal_start_name": "Dufferin St at Wilson Ave South Side",
+  "terminal_end_name": "Strachan Ave at Fleet St",
+  "total_boardings": 311584.0,
+  "mean_lambda_pax_min": 0.1645474601674939,
+  "mean_tt_sec": 48.95061889923028,
+  "mean_tt_cv": 0.5271069280377612,
+  "num_links_with_data": 49,
+  "dispatching_headway_mean_sec": 524.1007418042594,
+  "dispatching_headway_std_sec": 285.32247701474165,
+  "headway_placeholder_sec": 300.0,
+  "od_matrix_method": "IPF (Iterative Proportional Fitting)"
+}
