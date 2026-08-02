@@ -11,15 +11,18 @@ episode_duration: 21600
 # fleet_size: maximum buses on route at any time (omit or null for unlimited)
 # dispatch_headway: minimum time between dispatches in seconds (omit to use route's schedule_headway)
 # warm_up: whether to warm up the environment by pre-distributing buses along the route
-fleet_size: 17
+
+#fleet_size: 17
+fleet_size: 12
 warm_up: no
 
-env_name: 'cd_route_3'
-has_schedule: yes
+# env_name: 'cd_route_3'
+env_name: 'ttc_route_29_north_real'
+has_schedule: no
 
 metric_names:
   - 'headway_std'
-  - 'schedule_deviation'
+#  - 'schedule_deviation'
   - 'hold_time'
   - 'pax_boarding_rejection'
 
@@ -114,3 +117,5 @@ agent_config:
     episode_duration_for_stabilize_average_hold: 10800
     epsilon_scale: 100.0
     spacing_scale: 1000.0
+
+
