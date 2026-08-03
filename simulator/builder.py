@@ -4,6 +4,7 @@ from agent.agent import Agent
 from setup.homo_one_route_factory import Homo_One_Route_Components_Factory
 from setup.chengdu_factory import CD_Route3_Components_Factory
 from setup.guangzhou_brt_factory import GBRT_Components_Factory
+from setup.ttc_route_29_factory import TTC_Route_29_Components_Factory
 from setup.factory import ComponentFactory
 from setup.blueprint import Blueprint
 from simulator.virtual_bus import VirtualBus
@@ -39,6 +40,9 @@ class Builder:
                 blueprint)
         elif blueprint.env_name == 'gbrt':
             self._component_factory: ComponentFactory = GBRT_Components_Factory(
+                blueprint)
+        elif blueprint.env_name == 'ttc_route_29':
+            self._component_factory: ComponentFactory = TTC_Route_29_Components_Factory(
                 blueprint)
 
     def create_virtual_bus(self) -> VirtualBus:
