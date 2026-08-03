@@ -1,6 +1,7 @@
 from typing import Dict, Tuple
 
 from agent.agent import Agent
+from setup import blueprint
 from setup.homo_one_route_factory import Homo_One_Route_Components_Factory
 from setup.chengdu_factory import CD_Route3_Components_Factory
 from setup.guangzhou_brt_factory import GBRT_Components_Factory
@@ -41,7 +42,8 @@ class Builder:
         elif blueprint.env_name == 'gbrt':
             self._component_factory: ComponentFactory = GBRT_Components_Factory(
                 blueprint)
-        elif blueprint.env_name == 'ttc_route_29':
+        elif blueprint.env_name in ('ttc_route_29_north', 'ttc_route_29_south',
+                             'ttc_route_29_north_real', 'ttc_route_29_south_real'):
             self._component_factory: ComponentFactory = TTC_Route_29_Components_Factory(
                 blueprint)
 
