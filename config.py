@@ -17,17 +17,17 @@ from agent.rl.schedule_aware_ddpg import Schedule_Aware_DDPG
 from agent.rl.pax_wait_ddpg_bc import Pax_Wait_DDPG_BC
 from agent.rl.pax_wait_time_ddpg import Pax_Wait_Time_DDPG
 from agent.rl.rich_ddpg import Rich_DDPG
-from agent.rl.transformer_ddpg import Transformer_DDPG
-from agent.rl.transformer_ddpg_reward import Transformer_DDPG_Reward
+#from agent.rl.transformer_ddpg import Transformer_DDPG
+#from agent.rl.transformer_ddpg_reward import Transformer_DDPG_Reward
 from agent.rl.rich_ppo import Rich_PPO
-from agent.rl.transformer_ddpg_imp import Transformer_DDPG_Imp
-from agent.rl.transformer_ddpg_claude import Transformer_DDPG_Claude
-from agent.rl.transformer_ddpg_openai import SetTD3_BusHoldingAgent
-from agent.rl.transformer_ddpg_claude_imp import Transformer_DDPG_Claude_Imp
-from agent.rl.transformer_ddpg_openai_imp import SetTD3_BusHoldingAgent_Imp
+#from agent.rl.transformer_ddpg_imp import Transformer_DDPG_Imp
+#from agent.rl.transformer_ddpg_claude import Transformer_DDPG_Claude
+#from agent.rl.transformer_ddpg_openai import SetTD3_BusHoldingAgent
+#from agent.rl.transformer_ddpg_claude_imp import Transformer_DDPG_Claude_Imp
+#from agent.rl.transformer_ddpg_openai_imp import SetTD3_BusHoldingAgent_Imp
 from agent.rl.pax_wait_time_ddpg_pax_penal import Pax_Wait_Time_DDPG_Pax_Penal
-from agent.rl.transformer_ddpg_claude_or import Transformer_DDPG_Claude_Or
-from agent.rl.transformer_ddpg_openai_or import SetDDPG_BusHoldingAgent_Or
+#from agent.rl.transformer_ddpg_claude_or import Transformer_DDPG_Claude_Or
+#from agent.rl.transformer_ddpg_openai_or import SetDDPG_BusHoldingAgent_Or
 from agent.rl.mlp_ddpg_baseline import MLP_DDPG_Baseline
 from agent.rl.lstm_ddpg_baseline import LSTM_DDPG_Baseline
 from agent.rl.deepsets_ddpg_baseline import DeepSets_DDPG_Baseline
@@ -121,29 +121,29 @@ def build_simulation_elements(config_path=None, eval_mode=False) -> Tuple[Bluepr
         agent = Pax_Wait_Time_DDPG(agent_config, blueprint, run_config)
     elif agent_config['agent_name'] == 'Rich_DDPG':
         agent = Rich_DDPG(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'Transformer_DDPG':
-        agent = Transformer_DDPG(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'Transformer_DDPG_Reward':
-        agent = Transformer_DDPG_Reward(agent_config, blueprint, run_config)
+    # elif agent_config['agent_name'] == 'Transformer_DDPG':
+    #     agent = Transformer_DDPG(agent_config, blueprint, run_config)
+    # elif agent_config['agent_name'] == 'Transformer_DDPG_Reward':
+    #     agent = Transformer_DDPG_Reward(agent_config, blueprint, run_config)
     elif agent_config['agent_name'] == 'Rich_PPO':
         agent = Rich_PPO(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'Transformer_DDPG_Imp':
-        agent = Transformer_DDPG_Imp(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'Transformer_DDPG_Claude':
-        agent = Transformer_DDPG_Claude(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'SetTD3_BusHoldingAgent':
-        agent = SetTD3_BusHoldingAgent(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'Transformer_DDPG_Claude_Imp':
-        agent = Transformer_DDPG_Claude_Imp(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'SetTD3_BusHoldingAgent_Imp':
-        agent = SetTD3_BusHoldingAgent_Imp(agent_config, blueprint, run_config)
+    # elif agent_config['agent_name'] == 'Transformer_DDPG_Imp':
+    #     agent = Transformer_DDPG_Imp(agent_config, blueprint, run_config)
+    # elif agent_config['agent_name'] == 'Transformer_DDPG_Claude':
+    #     agent = Transformer_DDPG_Claude(agent_config, blueprint, run_config)
+    # elif agent_config['agent_name'] == 'SetTD3_BusHoldingAgent':
+    #     agent = SetTD3_BusHoldingAgent(agent_config, blueprint, run_config)
+    # elif agent_config['agent_name'] == 'Transformer_DDPG_Claude_Imp':
+    #     agent = Transformer_DDPG_Claude_Imp(agent_config, blueprint, run_config)
+    # elif agent_config['agent_name'] == 'SetTD3_BusHoldingAgent_Imp':
+    #     agent = SetTD3_BusHoldingAgent_Imp(agent_config, blueprint, run_config)
     elif agent_config['agent_name'] == 'Pax_Wait_Time_DDPG_Pax_Penal':
         agent = Pax_Wait_Time_DDPG_Pax_Penal(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'Transformer_DDPG_Claude_Or':
-        agent = Transformer_DDPG_Claude_Or(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'SetDDPG_BusHoldingAgent_Or':
-        agent = SetDDPG_BusHoldingAgent_Or(agent_config, blueprint, run_config)
-    elif agent_config['agent_name'] == 'MLP_DDPG_Baseline':
+    # elif agent_config['agent_name'] == 'Transformer_DDPG_Claude_Or':
+    #     agent = Transformer_DDPG_Claude_Or(agent_config, blueprint, run_config)
+    # elif agent_config['agent_name'] == 'SetDDPG_BusHoldingAgent_Or':
+    #     agent = SetDDPG_BusHoldingAgent_Or(agent_config, blueprint, run_config)
+    # elif agent_config['agent_name'] == 'MLP_DDPG_Baseline':
         agent = MLP_DDPG_Baseline(agent_config, blueprint, run_config)
     elif agent_config['agent_name'] == 'LSTM_DDPG_Baseline':
         agent = LSTM_DDPG_Baseline(agent_config, blueprint, run_config)
